@@ -58,6 +58,7 @@ class IMIUTouchHandler {
     IMIUTouchHandler(OnActionRecorededHandler listener) {
         mListener = listener;
     }
+
     void Handle(MotionEvent motionEvent) {
 
         /*Log.d(TAG, motionEvent.toString());
@@ -79,8 +80,8 @@ class IMIUTouchHandler {
                 }
                 mVelocityTracker.addMovement(motionEvent);
 
-                minPos.Set(5000,5000);
-                maxPos.Set(-1,-1);
+                minPos.Set(5000, 5000);
+                maxPos.Set(-1, -1);
                 break;
             //just released
             case MotionEvent.ACTION_UP:
@@ -90,14 +91,14 @@ class IMIUTouchHandler {
                 break;
             //moving
             case MotionEvent.ACTION_MOVE:
-                if(currentPosition.X > maxPos.X)
+                if (currentPosition.X > maxPos.X)
                     maxPos.X = currentPosition.X;
-                if(currentPosition.Y > maxPos.Y)
+                if (currentPosition.Y > maxPos.Y)
                     maxPos.Y = currentPosition.Y;
 
-                if(currentPosition.X < minPos.X)
+                if (currentPosition.X < minPos.X)
                     minPos.X = currentPosition.X;
-                if(currentPosition.Y < minPos.Y)
+                if (currentPosition.Y < minPos.Y)
                     minPos.Y = currentPosition.Y;
 
                 midPos.X = (minPos.X + maxPos.X) / 2;
@@ -129,7 +130,7 @@ class IMIUTouchHandler {
                     swept = false;
                 }
 
-                if(((lastXDir != currentXDir) || (lastYDir != currentYDir)) && !swept && moved){
+                if (((lastXDir != currentXDir) || (lastYDir != currentYDir)) && !swept && moved) {
                     mListener.OnActionRecorded(Actions.SWIPE, startTouchPostion, velocity);
                     swept = true;
                 }
@@ -143,6 +144,10 @@ class IMIUTouchHandler {
 
     public interface OnActionRecorededHandler {
         void OnActionRecorded(Actions action, Position startPosition, double velocity);
+    }
+
+    public Position getCurrentPosition() {
+        return currentPosition;
     }
 
 }
